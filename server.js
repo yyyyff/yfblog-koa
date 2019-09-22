@@ -1,8 +1,8 @@
-const Koa = require("koa");
-const InitManager = require("./base/init");
+const Koa = require('koa')
+const InitManager = require('./base/init')
 
-const app = new Koa();
+const app = new Koa()
 
-InitManager.initApp(app);
+InitManager.initApp(app)
 
-app.listen(3030);
+app.listen(3030)

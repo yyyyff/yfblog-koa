@@ -1,11 +1,10 @@
 const Router = require('koa-router')
 const router = new Router({
-  prefix:'/comment'
+  prefix: '/comment'
 })
 
-router.get('/',async(ctx)=>{
-  ctx.body= 'this is comment'
+router.get('/', async ctx => {
+  ctx.body = 'this is comment'
 })
-
 
 module.exports = router
