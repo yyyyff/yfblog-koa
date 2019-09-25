@@ -1,3 +1,5 @@
+// TODO：先定义errorCode，不要乱写
+
 class Exception extends Error {
   constructor(msg = '服务器异常', errorCode = 9000, status = 400) {
     super()
@@ -7,6 +9,7 @@ class Exception extends Error {
   }
 }
 
+// TODO: 改进msg，不要输出过多不不要的内容
 class JoiException extends Exception {
   constructor(msg) {
     super()
@@ -15,4 +18,23 @@ class JoiException extends Exception {
     this.status = 400
   }
 }
-module.exports = { Exception, JoiException }
+
+class SuccessException extends Exception {
+  constructor(msg, errorCode) {
+    super()
+    this.msg = msg || 'success'
+    this.errorCode = errorCode || 0
+    this.status = 201
+  }
+}
+
+class AuthFailed extends Exception {
+  constructor(msg, errorCode) {
+    super()
+    this.msg = msg || '授权失败'
+    this.errorCode = errorCode || -1
+    this.status = 401
+  }
+}
+
+module.exports = { Exception, JoiException, SuccessException, AuthFailed }

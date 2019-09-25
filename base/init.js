@@ -17,13 +17,13 @@ class InitManager {
   }
 
   static loadRoutes() {
-    requireDirectory(module, '../app/api', {
+    requireDirectory(module, '../app/routes', {
       visit: loadModule
     })
 
     function loadModule(module) {
       if (module instanceof Router) {
-        InitManager.app.use(module.routes())
+        InitManager.app.use(module.routes()).use(module.allowedMethods())
       }
     }
   }
