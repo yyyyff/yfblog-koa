@@ -8,7 +8,7 @@ module.exports = {
     pwd: '123456'
   },
   token: {
-    secretKey: 'yfblog-koa-json-web-token-secretKey',
+    secret: 'yfblog-koa-json-web-token-secretKey',
     expiresIn: 60 * 60
   }
 }
