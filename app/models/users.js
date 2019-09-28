@@ -1,6 +1,7 @@
 const { Sequelize, Model } = require('sequelize')
 const bcrypt = require('bcryptjs')
 const { sequelize } = require('../../base/db')
+const { env, authLevel } = require('../../config/config')
 const { AuthFailed } = require('../../base/exception')
 
 class User extends Model {
@@ -47,6 +48,10 @@ User.init(
     },
     email: {
       type: Sequelize.STRING(50)
+    },
+    authLevel: {
+      type: Sequelize.INTEGER,
+      defaultValue: env === 'dev' ? authLevel.ADMIN : authLevel.GUEST
     }
   },
   {

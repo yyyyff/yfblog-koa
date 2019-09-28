@@ -10,5 +10,10 @@ module.exports = {
   token: {
     secret: 'yfblog-koa-json-web-token-secretKey',
     expiresIn: 60 * 60
+  },
+  authLevel: {
+    ADMIN: 99,
+    GUEST: 49,
+    USER: 1
   }
 }

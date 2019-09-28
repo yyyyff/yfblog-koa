@@ -41,7 +41,7 @@ class Forbbiden extends Exception {
   constructor(msg, errorCode) {
     super()
     this.msg = msg || '禁止访问'
-    this.error_code = error_code || -1
+    this.errorCode = errorCode || -1
     this.code = 403
   }
 }

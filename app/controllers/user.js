@@ -12,7 +12,7 @@ class UserCtl {
   async login(ctx) {
     let { username, password } = ctx.request.body
     const user = await User.verifyPassword(username, password)
-    const token = generateToken(user.id, 99)
+    const token = generateToken(user.id,user.authLevel)
     ctx.body = {token}
   }
 }
