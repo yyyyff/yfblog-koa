@@ -47,7 +47,7 @@ User.init(
       }
     },
     email: {
-      type: Sequelize.STRING(50)
+      type: Sequelize.STRING(255)
     },
     authLevel: {
       type: Sequelize.INTEGER,
@@ -56,7 +56,7 @@ User.init(
   },
   {
     sequelize,
-    tableName: 'user'
+    tableName: 'users'
   }
 )
 

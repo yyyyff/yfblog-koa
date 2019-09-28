@@ -10,7 +10,6 @@ const router = new Router({
 router.post('/register', validator.body(checkRegister), register)
 router.post('/login', validator.body(checkLogin),login)
 
-//auth 中间件测试
 router.get('/authtest',auth(),async ctx =>{
   ctx.body = ctx.state.user
 })
