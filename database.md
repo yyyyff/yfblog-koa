@@ -12,6 +12,7 @@
   |     authorId |   int(10)    |      非负,可为空       | 内容所属id           |
   |         type | varchar(16)  | 可为空，默认 'archive' | 文章类型？内容：页面 |
   |  commentsNum |   int(10)    |      非负,可为空       | 内容评论数           |
+  |      viewNum |    int(10    |      非负，可为空      | 内容浏览量           |
   | allowComment |   char(1)    |     可为空，默认1      | 是否允许评论         |
   |    createdAt |   datetime   |      默认创建时间      | 创建时间             |
   |     updateAt |   datetime   |      默认更新时间      | 更新时间             |
@@ -49,12 +50,12 @@
    | createdAt |   datetime   |  默认创建时间  | 创建时间       |
 
 #### options 表
-   |      键名 |     类型     |  属性  | 解释         |
-   | --------: | :----------: | :----: | :----------- |
-   |     title | varchar(200) |        | 网站标题     |
-   |  descript | varchar(200) | 可为空 | 网站描述     |
-   | keywordsd | varchar(200) | 可为空 | 网站关键词   |
-   |  register |   char(1)    | 默认1  | 是否允许注册 |
+   |        键名 |     类型     |  属性  | 解释         |
+   | ----------: | :----------: | :----: | :----------- |
+   |       title | varchar(200) |        | 网站标题     |
+   | description | varchar(200) | 可为空 | 网站描述     |
+   |     keyword | varchar(200) | 可为空 | 网站关键词   |
+   |    register |   char(1)    | 默认1  | 是否允许注册 |
    
 ### users 表
    |      键名 |     类型     |   属性   | 解释   |
