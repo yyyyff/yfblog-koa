@@ -45,22 +45,33 @@ class Comments extends Model {
         },
         parent: {
           type: Sequelize.INTEGER(10)
+        },
+        createdAt: {
+          type: Sequelize.DATE,
+          defaultValue: Sequelize.NOW
         }
       },
       {
         sequelize,
-        tableName: 'comments'
+        tableName: 'comments',
+        indexes: [
+          {
+            fields: ['cid']
+          }
+        ]
       }
     )
   }
   static associate(models) {
     this.belongsTo(models.Contents, {
       foreignKey: 'cid',
-      targetKey: 'cid'
+      targetKey: 'cid',
+      constraints: false
     })
     this.belongsTo(models.Users, {
       foreignKey: 'authorId',
-      targetKey: 'uid'
+      targetKey: 'uid',
+      constraints: false
     })
   }
 }

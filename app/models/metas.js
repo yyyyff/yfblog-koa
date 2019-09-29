@@ -32,7 +32,13 @@ class Metas extends Model {
       },
       {
         sequelize,
-        tableName: 'metas'
+        tableName: 'metas',
+        indexes: [
+          {
+            unique: true,
+            fields: ['slug']
+          }
+        ]
       }
     )
   }

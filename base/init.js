@@ -12,7 +12,9 @@ class InitManager {
   }
 
   static initDB() {
-    sequelize.sync()
+    sequelize.sync({
+      force: true
+    })
   }
   static useMiddleware() {
     // 保证errorCatch在最开始的调用

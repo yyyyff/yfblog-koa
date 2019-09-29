@@ -6,7 +6,10 @@ const sequelize = new Sequelize(db, user, pwd, {
   host,
   port,
   logging: console.log,
-  timezone: '+08:00'
+  timezone: '+08:00',
+  define: {
+    timestamps: false
+  }
 })
 
 // sequelize.sync()

@@ -42,11 +42,25 @@ class Contents extends Model {
         allowComment: {
           type: Sequelize.INTEGER(1),
           defaultValue: 1
+        },
+        createdAt: {
+          type: Sequelize.DATE,
+          defaultValue: Sequelize.NOW
+        },
+        updateAt: {
+          type: Sequelize.DATE,
+          defaultValue: Sequelize.NOW
         }
       },
       {
         sequelize,
-        tableName: 'contents'
+        tableName: 'contents',
+        indexes: [
+          {
+            unique: true,
+            fields: ['slug']
+          }
+        ]
       }
     )
   }
@@ -55,6 +69,7 @@ class Contents extends Model {
     this.belongsTo(models.Users, {
       foreignKey: 'authorId',
       targetKey: 'uid',
+      constraints: false
     })
     this.belongsToMany(models.Metas, {
       through: {

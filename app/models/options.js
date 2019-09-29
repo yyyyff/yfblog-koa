@@ -7,7 +7,8 @@ class Options extends Model {
       {
         title: {
           type: Sequelize.STRING(200),
-          allowNull: false
+          allowNull: false,
+          primaryKey: true
         },
         description: {
           type: Sequelize.STRING(200)
