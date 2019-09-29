@@ -1,6 +1,23 @@
 const { Sequelize, Model } = require('sequelize')
 
 class Contents extends Model {
+
+  static getArticle({page = 1,pageSize = 10,keywords = '',slug,mid}){
+    
+    await Contents.findAll({
+      where: {
+        type: {
+          [Op.notLike]: '%page%'
+        },
+        [Op.or]:{
+          title: {
+            [Op.like]: `%${keywords}%`
+          },
+        }
+      }
+    })
+  }
+
   static init(sequelize) {
     return super.init(
       {

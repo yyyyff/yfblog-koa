@@ -28,3 +28,12 @@ exports.checkLogin = Joi.object({
     .required(),
   password: Joi.string().required()
 })
+
+exports.checkGetArticle = Joi.object({
+  page: Joi.string(),
+  pageSize: Joi.number(),
+  // onlyTitle: Joi.number(), // 只要标题（归档用）
+  keywords: Joi.string(), // 关键字查询
+  slug: Joi.string(), // 针对前台metas查询
+  mid: Joi.string() // 针对后台metas查询
+})
