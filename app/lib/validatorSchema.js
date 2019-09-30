@@ -35,5 +35,5 @@ exports.checkGetArticle = Joi.object({
   // onlyTitle: Joi.number(), // 只要标题（归档用）
   keywords: Joi.string(), // 关键字查询
   slug: Joi.string(), // 针对前台metas查询
-  mid: Joi.string() // 针对后台metas查询
+  // mid: Joi.string() // 针对后台metas查询(暂时用不到，先关了，等用到再开)
 })

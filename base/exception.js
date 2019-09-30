@@ -42,7 +42,16 @@ class Forbbiden extends Exception {
     super()
     this.msg = msg || '禁止访问'
     this.errorCode = errorCode || -1
-    this.code = 403
+    this.status = 403
+  }
+}
+
+class NotFound extends Exception {
+  constructor(msg, errorCode) {
+    super()
+    this.msg = msg || '没有找到相关资源'
+    this.errorCode = errorCode || -1
+    this.status = 404
   }
 }
 
@@ -51,5 +60,6 @@ module.exports = {
   JoiException,
   SuccessException,
   AuthFailed,
-  Forbbiden
+  Forbbiden,
+  NotFound
 }

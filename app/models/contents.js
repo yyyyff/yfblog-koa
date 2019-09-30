@@ -1,21 +1,40 @@
 const { Sequelize, Model } = require('sequelize')
-
+const { NotFound } = require('../../base/exception')
 class Contents extends Model {
-
-  static getArticle({page = 1,pageSize = 10,keywords = '',slug,mid}){
-    
-    await Contents.findAll({
+  static async getArticle({
+    page = 1,
+    pageSize = 10,
+    keywords = '',
+    slug = null
+  }) {
+    let contents = await Contents.findAll({
       where: {
         type: {
           [Op.notLike]: '%page%'
         },
-        [Op.or]:{
+        [Op.or]: {
           title: {
             [Op.like]: `%${keywords}%`
-          },
+          }
         }
-      }
+      },
+      include: [
+        {
+          model: Metas,
+          arrtibutes: ['name'],
+          where: { slug }
+        }
+      ],
+      offset: (page - 1) * pageSize,
+      limit: pageSize,
+      order: [['createdAt', 'DESC'], ['order', 'DESC']]
     })
+
+    if (!contents) {
+      throw new NotFound('未找到相关文章')
+    }
+
+    return contents
   }
 
   static init(sequelize) {
