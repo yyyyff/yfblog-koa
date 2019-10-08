@@ -25,7 +25,6 @@
   |  slug | varchar(200) |        索引         | 项目缩略名     |
   |  type | varchar(32)  |     默认'tags'      | 项目类型？分类 | 标签 |
   | count |   int(10)    |        非负         | 项目所属内容数 |
-  | order |   int(10)    | 非负，可为空，默认0 | 项目排序       |
   
 #### relationships 表
    | 键名 |  类型   |   属性    | 解释     |

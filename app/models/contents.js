@@ -21,7 +21,7 @@ class Contents extends Model {
       include: [
         {
           model: Metas,
-          arrtibutes: ['name'],
+          arrtibutes: ['mid', 'slug', 'name', 'type'],
           where: { slug }
         }
       ],
@@ -35,6 +35,75 @@ class Contents extends Model {
     }
 
     return contents
+  }
+
+  static async createArticle({
+    title,
+    slug,
+    content,
+    order = 0,
+    authorId,
+    type = 'archive',
+    allowComment = 1,
+    metaIds = []
+  }) {
+    const newArticle = await Contents.create({
+      title,
+      slug,
+      content,
+      order,
+      authorId,
+      type,
+      allowComment
+    })
+    let metas = await Metas.findAll({ where: { mid: metaIds } })
+    metas.forEach(meta=>{
+      meta.increment('count')
+    })
+    await newArticle.setMetas(metas)
+
+    //todo  return true
+  }
+
+  static async findBySlug({ slug }) {
+    const archive = await Contents.findOne({
+      where: { slug },
+      include: [
+        {
+          model: Metas,
+          attributes: ['mid', 'name', 'slug', 'type']
+        },
+        {
+          model: Comments,
+          attributes: ['coid', 'author', 'authorId', 'url', 'text', 'parent'],
+          where: {
+            close: {
+              [Op.ne]: 1
+            }
+          },
+          include: [
+            {
+              model: Users,
+              arrtibutes: ['nickname', 'avatar']
+            }
+          ]
+        }
+      ]
+    })
+    //todo return archive
+  }
+
+  static async updateById({ cid, title, slug, content, order, metaIds }) {
+    let metas = await Metas.findAll({ where: { mid: metaIds } })
+    Contents.findByPk(cid).then(oldContent => {
+      Contents.update({ title, slug, content, order })
+      Contents.setMetas(metas)
+    })
+    //todo return true
+  }
+
+  static async deleteById({ cid }) {
+    await Contents.destroy({ where: { cid } })
   }
 
   static init(sequelize) {
@@ -101,7 +170,7 @@ class Contents extends Model {
     )
   }
   static associate(models) {
-    this.hasMany(models.Comments)
+    this.hasMany(models.Comments, { onDelete: 'CASCADE' })
     this.belongsTo(models.Users, {
       foreignKey: 'authorId',
       targetKey: 'uid',

@@ -2,6 +2,12 @@ const { Sequelize, Model } = require('sequelize')
 const { sequelize } = require('../../base/db')
 
 class Options extends Model {
+  static async getOption(){
+    const option = await Options.findAll({
+      limit: 1
+    })
+    return option
+  }
   static init(sequelize) {
     return super.init(
       {

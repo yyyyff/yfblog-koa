@@ -23,6 +23,20 @@ class Users extends Model {
     return user
   }
 
+  async updatePassword(currentPassword, newPassword) {
+    let comparePwd = bcrypt.compareSync(currentPassword, this.password)
+    if (comparePwd) {
+      await this.update({ password: newPassword })
+      // throw success
+    } else {
+      // throw 密码验证失败
+    }
+  }
+
+  async updateNickName(nickname) {
+    await this.update({ nickname })
+  }
+
   static init(sequelize) {
     return super.init(
       {
@@ -67,8 +81,8 @@ class Users extends Model {
   }
 
   static associate(models) {
-    this.hasMany(models.Contents)
-    this.hasMany(models.Comments)
+    this.hasMany(models.Contents, { onDelete: 'CASCADE' })
+    this.hasMany(models.Comments, { onDelete: 'CASCADE' })
   }
 }
 

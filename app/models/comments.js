@@ -66,7 +66,8 @@ class Comments extends Model {
     this.belongsTo(models.Contents, {
       foreignKey: 'cid',
       targetKey: 'cid',
-      constraints: false
+      constraints: false,
+      onDelete:'CASCADE'
     })
     this.belongsTo(models.Users, {
       foreignKey: 'authorId',

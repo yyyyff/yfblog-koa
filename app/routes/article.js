@@ -9,5 +9,6 @@ router.post('/',createArticle)              // 创建文章
 router.get('/:slug',findBySlug)             // 查找文章
 router.put('/:id',updateById)               // 修改文章
 router.delete('/:id',deleteById)            // 删除文章
+router.get('/hotArticle',getHotArticle)     // 热门文章
 
 module.exports = router
