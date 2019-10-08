@@ -8,7 +8,7 @@ class OptionCtl {
     ctx.body = option
   }
   async updateOption(ctx) {
-    let { title, description, keyword, register } = ctx.body
+    let { title, description, keyword, register } = ctx.request.body
     let option = await PushSubscriptionOptions.getOption()
     option.update({
       title,

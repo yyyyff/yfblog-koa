@@ -28,7 +28,7 @@ class MetaCtl {
     })
   }
   async addMeta(ctx) {
-    const {mid,name,slug,type=getType(ctx)} = ctx.body
+    const {mid,name,slug,type=getType(ctx)} = ctx.request.body
     
     if(!slug){
       slug = zh(name,{
@@ -43,7 +43,7 @@ class MetaCtl {
   }
   async updateByMid(ctx) {
     const mid = ctx.params.mid
-    const {name,slug} = ctx.body
+    const {name,slug} = ctx.request.body
     Metas.findByPk(mid).then(oldMetas=>{
       Metas.update({name,slug})
     })

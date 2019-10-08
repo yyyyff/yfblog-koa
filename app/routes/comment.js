@@ -3,8 +3,9 @@ const router = new Router({
   prefix: '/comment'
 })
 
-router.get('/', async ctx => {
-  ctx.body = 'this is comment'
-})
+
+router.get('/',getAllComment)
+router.post('/add',addComment)
+router.delete('/:coid',deleteComment)
 
 module.exports = router
