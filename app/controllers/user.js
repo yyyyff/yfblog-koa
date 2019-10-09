@@ -1,13 +1,14 @@
 const { Users } = require('../models')
-const { SuccessException } = require('../../base/exception')
+const { Success,AuthFailed } = require('../../base/exception')
 const { generateToken } = require('../lib/token')
 const { authLevel } = require('../../config/config')
+
 class UserCtl {
   async register(ctx) {
     const { username, nickname, password, email } = ctx.request.body
 
     await Users.create({ username, nickname, password, email })
-    throw new SuccessException()
+    throw new Success()
   }
 
   async login(ctx) {
@@ -20,7 +21,7 @@ class UserCtl {
   async updateUser(ctx) {
     let uid = ctx.params.uid
     if (ctx.state.user.uid !== uid) {
-      //  throw 权限不对
+      throw new AuthFailed('只能对自己账户进行操作')
     }
     let user = await Users.findOne({
       where: { uid }

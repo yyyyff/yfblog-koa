@@ -1,4 +1,5 @@
 const Router = require('koa-router')
+const { getOption, updateOption } = require('../controllers/option')
 const validator = require('../../middleware/validator')()
 const {  } = require('../lib/validatorSchema')
 const auth = require('../../middleware/auth')

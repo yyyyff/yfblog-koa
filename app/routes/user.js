@@ -1,7 +1,7 @@
 const Router = require('koa-router')
 const validator = require('../../middleware/validator')()
 const { checkRegister, checkLogin } = require('../lib/validatorSchema')
-const { register, login } = require('../controllers/user')
+const { register, login,updateUser,deleteUser } = require('../controllers/user')
 const auth = require('../../middleware/auth')
 const router = new Router({
   prefix: '/user'

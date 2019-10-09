@@ -1,8 +1,7 @@
 const { Sequelize, Model } = require('sequelize')
 const bcrypt = require('bcryptjs')
-// const { sequelize } = require('../../base/db')
 const { env, authLevel } = require('../../config/config')
-const { AuthFailed } = require('../../base/exception')
+const { AuthFailed,Success } = require('../../base/exception')
 
 class Users extends Model {
   static async verifyPassword(username, password) {
@@ -27,14 +26,15 @@ class Users extends Model {
     let comparePwd = bcrypt.compareSync(currentPassword, this.password)
     if (comparePwd) {
       await this.update({ password: newPassword })
-      // throw success
+      throw new Success('密码已更改成功')
     } else {
-      // throw 密码验证失败
+      throw new AuthFailed('当前密码不正确，请重试')
     }
   }
 
   async updateNickName(nickname) {
     await this.update({ nickname })
+    throw new Success('昵称已更改')
   }
 
   static init(sequelize) {

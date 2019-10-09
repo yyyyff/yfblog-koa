@@ -19,7 +19,7 @@ class JoiException extends Exception {
   }
 }
 
-class SuccessException extends Exception {
+class Success extends Exception {
   constructor(msg, errorCode) {
     super()
     this.msg = msg || 'success'
@@ -58,7 +58,7 @@ class NotFound extends Exception {
 module.exports = {
   Exception,
   JoiException,
-  SuccessException,
+  Success,
   AuthFailed,
   Forbbiden,
   NotFound
