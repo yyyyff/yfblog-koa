@@ -1,7 +1,6 @@
 const { Users } = require('../models')
-const { Success,AuthFailed } = require('../../base/exception')
+const { Forbbiden, Success, AuthFailed } = require('../../base/exception')
 const { generateToken } = require('../lib/token')
-const { authLevel } = require('../../config/config')
 
 class UserCtl {
   async register(ctx) {
@@ -26,10 +25,7 @@ class UserCtl {
     let user = await Users.findOne({
       where: { uid }
     })
-    if (
-      ctx.body.currentPassword !== undefined &&
-      ctx.body.newPassword !== undefined
-    ) {
+    if (ctx.body.currentPassword !== undefined && ctx.body.newPassword !== undefined) {
       await user.updatePassword(ctx.body.currentPassword, ctx.body.newPassword)
     }
     if (ctx.body.nickname !== undefined) {
@@ -39,11 +35,8 @@ class UserCtl {
 
   async deleteUser(ctx) {
     let uid = ctx.params.uid
-    if (ctx.state.user.uid !== authLevel.ADMIN) {
-      // throw 权限不足
-    }
     if (ctx.state.user.uid === uid) {
-      // throw 不能自己删除自己
+      throw new Forbbiden('不能删除自己')
     }
 
     let user = await Users.findOne({
@@ -52,7 +45,7 @@ class UserCtl {
 
     await user.destroy()
 
-    //throw 成功
+    throw new Success('删除成功')
   }
 }
 

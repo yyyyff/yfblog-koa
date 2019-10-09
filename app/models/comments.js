@@ -16,21 +16,18 @@ class Comments extends Model {
         },
         author: {
           type: Sequelize.STRING(200),
-          allowNull: false
         },
         authorId: {
           type: Sequelize.INTEGER.UNSIGNED
         },
         mail: {
           type: Sequelize.STRING(200),
-          allowNull: false
         },
         url: {
           type: Sequelize.STRING(200)
         },
         ip: {
           type: Sequelize.STRING(64),
-          allowNull: false
         },
         agent: {
           type: Sequelize.STRING(20)

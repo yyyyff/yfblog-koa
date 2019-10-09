@@ -35,16 +35,7 @@ class ArticleCtl {
     return contents
   }
   async createArticle(ctx) {
-    const {
-      title,
-      slug,
-      content,
-      order = 0,
-      authorId,
-      type = 'archive',
-      allowComment = 1,
-      metaIds = []
-    } = ctx.request.body
+    const { title, slug, content, order = 0, authorId, type = 'archive', allowComment = 1, metaIds = [] } = ctx.request.body
     const newArticle = await Contents.create({
       title,
       slug,
@@ -55,9 +46,12 @@ class ArticleCtl {
       allowComment
     })
     let metas = await Metas.findAll({ where: { mid: metaIds } })
-    metas.forEach(meta => {
-      meta.increment('count')
-    })
+    // metas.forEach(meta => {
+    //   meta.increment('count')
+    // })
+    // increment 适合单个实例自增，虽然用forEach能得到单个实例
+    // 但是forEach并不会按照预计进行执行 async/await无效
+    await Metas.update({ count: sequelize.literal(`'count'+1`) }, { where: { mid: metaIds } })
     await newArticle.setMetas(metas)
 
     //todo return true

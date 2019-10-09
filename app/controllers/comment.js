@@ -12,7 +12,8 @@ class CommentCtl {
     //todo return comments
   }
   async addComment(ctx) {
-    const {
+    const { cid, author, authorId, mail, url, ip, agent, text, parent } = ctx.request.body
+    await Comments.create({
       cid,
       author,
       authorId,
@@ -22,28 +23,7 @@ class CommentCtl {
       agent,
       text,
       parent
-    } = ctx.request.body
-    if (authorId) {
-      const comment = await Comments.create({
-        cid,
-        authorId,
-        ip,
-        agent,
-        text,
-        parent
-      })
-    } else {
-      const comment = await Comments.create({
-        cid,
-        author,
-        mail,
-        url,
-        ip,
-        agent,
-        text,
-        parent
-      })
-    }
+    })
   }
   async deleteComment() {
     const { coid } = ctx.params

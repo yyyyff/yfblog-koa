@@ -36,6 +36,7 @@ exports.checkUpdateUser = Joi.object({
     .min(1)
     .max(30)
 })
+
 exports.checkGetArticle = Joi.object({
   page: Joi.string(),
   pageSize: Joi.number(),
@@ -43,4 +44,35 @@ exports.checkGetArticle = Joi.object({
   keywords: Joi.string(), // 关键字查询
   slug: Joi.string() // 针对前台metas查询
   // mid: Joi.string() // 针对后台metas查询(暂时用不到，先关了，等用到再开)
+})
+
+exports.checkOptions = Joi.object({
+  title: Joi.string(),
+  description: Joi.string(),
+  keyword: Joi.string(),
+  register: Joi.number().valid([0, 1])
+})
+
+exports.checkGetAllComment = Joi.object({
+  page: Joi.number().max(2),
+  pageSize: Joi.number().max(2)
+})
+
+exports.checkAddComment = Joi.object({
+  cid: Joi.number().required(),
+  author: Joi.string(),
+  authorId: Joi.number(),
+  mail: Joi.string().email(),
+  url: Joi.string().uri(),
+  ip: Joi.string().ip(),
+  agent: Joi.string(),
+  text: Joi.string(),
+  parent: Joi.number()
+})
+  .with('author', 'mail')
+  .without('author', 'authorId')
+  .or('author', 'authorId')
+
+exports.checkDelComment = Joi.object({
+  coid: Joi.number().required()
 })
