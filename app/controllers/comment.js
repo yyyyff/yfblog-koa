@@ -1,4 +1,5 @@
 const { Comments } = require('../models')
+const { Success } = require('../../base/exception')
 
 class CommentCtl {
   async getAllComment(ctx) {
@@ -9,7 +10,8 @@ class CommentCtl {
       order: [['createdAt', 'DESC']]
     })
 
-    //todo return comments
+    ctx.body = { comments }
+    //todo return format
   }
   async addComment(ctx) {
     const { cid, author, authorId, mail, url, ip, agent, text, parent } = ctx.request.body
@@ -24,10 +26,12 @@ class CommentCtl {
       text,
       parent
     })
+    throw new Success('添加评论成功')
   }
   async deleteComment() {
     const { coid } = ctx.params
-    const comment = await Comments.destroy({ where: coid })
+    await Comments.destroy({ where: coid })
+    throw new Success('删除评论成功')
   }
 }
 

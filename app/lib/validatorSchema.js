@@ -37,20 +37,11 @@ exports.checkUpdateUser = Joi.object({
     .max(30)
 })
 
-exports.checkGetArticle = Joi.object({
-  page: Joi.string(),
-  pageSize: Joi.number(),
-  // onlyTitle: Joi.number(), // 只要标题（归档用）
-  keywords: Joi.string(), // 关键字查询
-  slug: Joi.string() // 针对前台metas查询
-  // mid: Joi.string() // 针对后台metas查询(暂时用不到，先关了，等用到再开)
-})
-
 exports.checkOptions = Joi.object({
   title: Joi.string(),
   description: Joi.string(),
   keyword: Joi.string(),
-  register: Joi.number().valid([0, 1])
+  register: Joi.number().valid(0, 1).required()
 })
 
 exports.checkGetAllComment = Joi.object({
@@ -75,4 +66,37 @@ exports.checkAddComment = Joi.object({
 
 exports.checkDelComment = Joi.object({
   coid: Joi.number().required()
+})
+
+exports.checkFindBySlug = Joi.object({
+  slug: Joi.string().required()
+})
+exports.checkAddMeta = Joi.object({
+  name: Joi.string().required(),
+  slug: Joi.string(),
+})
+exports.checkUpdateAndDelMetaByMid = Joi.object({
+  mid: Joi.number().required()
+})
+
+exports.checkGetArticle = Joi.object({
+  page: Joi.string(),
+  pageSize: Joi.number(),
+  keywords: Joi.string(),
+  slug: Joi.string()
+})
+
+exports.checkCreateArticle = Joi.object({
+  title: Joi.string().required(),
+  slug: Joi.string().required(),
+  content: Joi.string().required(),
+  order: Joi.number(),
+  authorId: Joi.string().required(),
+  type: Joi.string().valid('archive', 'page'),
+  allowComment: Joi.number().valid(0, 1),
+  metaIds: Joi.array()
+})
+
+exports.checkUpdateAndDelArtById = Joi.object({
+  cid: Joi.number().required()
 })

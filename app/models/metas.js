@@ -19,7 +19,7 @@ class Metas extends Model {
         },
         type: {
           type: Sequelize.STRING(32),
-          defaultValue: 'tag'
+          defaultValue: 'tags'
         },
         count: {
           type: Sequelize.INTEGER.UNSIGNED,

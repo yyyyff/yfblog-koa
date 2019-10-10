@@ -55,11 +55,21 @@ class NotFound extends Exception {
   }
 }
 
+class Unique extends Exception {
+  constructor(msg, errorCode) {
+    super()
+    this.msg = msg || '缩写在数据库中已存在，请更改一个新的缩写名称'
+    this.errorCode = errorCode || -1
+    this.status = 401
+  }
+}
+
 module.exports = {
   Exception,
   JoiException,
   Success,
   AuthFailed,
   Forbbiden,
-  NotFound
+  NotFound,
+  Unique
 }

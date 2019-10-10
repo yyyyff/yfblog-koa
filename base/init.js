@@ -13,7 +13,7 @@ class InitManager {
 
   static initDB() {
     sequelize.sync({
-      force: true
+      force: false
     })
   }
   static useMiddleware() {

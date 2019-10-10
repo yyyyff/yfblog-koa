@@ -1,20 +1,17 @@
 const { Sequelize, Model } = require('sequelize')
-const { sequelize } = require('../../base/db')
 
 class Options extends Model {
-  static async getOption(){
-    const option = await Options.findAll({
-      limit: 1
-    })
-    return option
-  }
   static init(sequelize) {
     return super.init(
       {
+        id: {
+          type: Sequelize.INTEGER.UNSIGNED,
+          primaryKey: true,
+          autoIncrement: true
+        },
         title: {
           type: Sequelize.STRING(200),
-          allowNull: false,
-          primaryKey: true
+          allowNull: false
         },
         description: {
           type: Sequelize.STRING(200)

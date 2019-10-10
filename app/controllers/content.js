@@ -1,5 +1,5 @@
 const { Contents } = require('../models')
-const { NotFound } = require('../../base/exception')
+const { Success, NotFound } = require('../../base/exception')
 
 class ArticleCtl {
   async getArticle(ctx) {
@@ -28,11 +28,11 @@ class ArticleCtl {
     })
 
     if (!contents) {
-      throw new NotFound('未找到相关文章')
+      throw new NotFound('未找到相关信息')
     }
 
     // todo return format
-    return contents
+    ctx.body = { contents }
   }
   async createArticle(ctx) {
     const { title, slug, content, order = 0, authorId, type = 'archive', allowComment = 1, metaIds = [] } = ctx.request.body
@@ -54,7 +54,7 @@ class ArticleCtl {
     await Metas.update({ count: sequelize.literal(`'count'+1`) }, { where: { mid: metaIds } })
     await newArticle.setMetas(metas)
 
-    //todo return true
+    throw new Success('内容创建成功')
   }
   async findBySlug(ctx) {
     const { slug } = ctx.params
@@ -82,24 +82,24 @@ class ArticleCtl {
         }
       ]
     })
-    //todo return archive
+    ctx.body = {archive}
   }
   async updateById(ctx) {
     const { cid } = ctx.params
-    const { title, slug, content, slug, content, order, metaIds } = ctx.request.body
+    const { title, slug, content, order, metaIds } = ctx.request.body
     let metas = await Metas.findAll({ where: { mid: metaIds } })
-    const content = await Contents.findById(cid)
-    content.update({ title, slug, content, order })
-    content.setMetas(metas)
+    const oldContent = await Contents.findById(cid)
+    oldContent.update({ title, slug, content, order })
+    oldContent.setMetas(metas)
 
-    //todo return true
+    throw new Success('内容更新成功')
   }
 
   async deleteById(ctx) {
     const { cid } = ctx.params
     await Contents.destroy({ where: { cid } })
 
-    //todo return true
+    throw new Success('内容已删除')
   }
 }
 
