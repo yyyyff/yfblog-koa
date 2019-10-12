@@ -1,7 +1,7 @@
 const { Op, literal } = require('sequelize')
 const zh = require('zh_cn')
 const { Contents, Metas, Comments, Users } = require('../models')
-const { Success, NotFound } = require('../../base/exception')
+const { Success, NotFound, Forbbiden } = require('../../base/exception')
 
 class ArticleCtl {
   async getArticle(ctx) {
@@ -21,7 +21,7 @@ class ArticleCtl {
         {
           model: Metas,
           attributes: ['mid', 'slug', 'name', 'type'],
-          through: {attributes:[]} // 不展示Relationships表
+          through: { attributes: [] } // 不展示Relationships表
         }
       ],
       offset: (page - 1) * pageSize,
@@ -45,7 +45,7 @@ class ArticleCtl {
       zh(title, {
         style: zh.STYLE_NORMAL
       }).join('_')
-    const hasSlug = await Contents.findAll({ where: { slug:saveSlug } })
+    const hasSlug = await Contents.findAll({ where: { slug: saveSlug } })
     if (hasSlug.length !== 0) {
       const D = new Date()
       let timestamp = D.getTime()
@@ -53,7 +53,7 @@ class ArticleCtl {
     }
     const newArticle = await Contents.create({
       title,
-      slug:saveSlug,
+      slug: saveSlug,
       content,
       order,
       authorId,
@@ -81,7 +81,7 @@ class ArticleCtl {
         {
           model: Metas,
           attributes: ['mid', 'name', 'slug', 'type'],
-          through: {attributes:[]}
+          through: { attributes: [] }
         },
         {
           model: Comments,
@@ -89,7 +89,7 @@ class ArticleCtl {
           include: [
             {
               model: Users,
-              arrtibutes: ['nickname', 'avatar']
+              attributes: ['nickname', 'avatar']
             }
           ]
         }
@@ -110,9 +110,13 @@ class ArticleCtl {
 
   async deleteById(ctx) {
     const { cid } = ctx.params
-    await Contents.destroy({ where: { cid } })
+    const content = await Contents.findByPk(cid)
+    if (!content) {
+      throw new Forbbiden('没有这篇文章，请刷新重试')
+    }
+    await content.destroy()
 
-    throw new Success('内容已删除')
+    throw new Success('文章已删除')
   }
 }
 

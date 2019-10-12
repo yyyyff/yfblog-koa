@@ -1,5 +1,4 @@
 const { Sequelize, Model } = require('sequelize')
-const { sequelize } = require('../../base/db')
 
 class Comments extends Model {
   static init(sequelize) {
@@ -59,13 +58,14 @@ class Comments extends Model {
     this.belongsTo(models.Contents, {
       foreignKey: 'cid',
       targetKey: 'cid',
-      constraints: false,
-      onDelete:'CASCADE'
-    })
-    this.belongsTo(models.Users, {
-      foreignKey: 'authorId',
-      targetKey: 'uid',
+      onDelete:'CASCADE',
       constraints: false
+    })
+    this.hasOne(models.Users, {
+      foreignKey: 'uid',
+      sourceKey:'authorId',
+      constraints: false
+
     })
   }
 }

@@ -65,7 +65,7 @@ class Contents extends Model {
     )
   }
   static associate(models) {
-    this.hasMany(models.Comments, { onDelete: 'CASCADE' })
+    this.hasMany(models.Comments, {foreignKey:'cid', onDelete: 'CASCADE' })
     this.belongsTo(models.Users, {
       foreignKey: 'authorId',
       targetKey: 'uid',

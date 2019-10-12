@@ -9,7 +9,7 @@ const router = new Router({
 })
 
 router.post('/add', auth(authLevel.USER, false), validator.body(checkAddComment), addComment)
-router.get('/', validator.query(checkGetAllComment), getAllComment)
+router.get('/',auth(), validator.query(checkGetAllComment), getAllComment)
 router.delete('/:coid', auth(), validator.params(checkDelComment), deleteComment)
 
 module.exports = router
