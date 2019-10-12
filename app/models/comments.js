@@ -36,10 +36,6 @@ class Comments extends Model {
           type: Sequelize.TEXT,
           allowNull: false
         },
-        close: {
-          type: Sequelize.INTEGER(1),
-          defaultValue: 0
-        },
         parent: {
           type: Sequelize.INTEGER(10)
         },

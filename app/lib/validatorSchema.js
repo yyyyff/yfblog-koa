@@ -52,17 +52,14 @@ exports.checkGetAllComment = Joi.object({
 exports.checkAddComment = Joi.object({
   cid: Joi.number().required(),
   author: Joi.string(),
-  authorId: Joi.number(),
   mail: Joi.string().email(),
   url: Joi.string().uri(),
   ip: Joi.string().ip(),
   agent: Joi.string(),
-  text: Joi.string(),
+  text: Joi.string().required(),
   parent: Joi.number()
 })
   .with('author', 'mail')
-  .without('author', 'authorId')
-  .or('author', 'authorId')
 
 exports.checkDelComment = Joi.object({
   coid: Joi.number().required()
@@ -91,7 +88,6 @@ exports.checkCreateArticle = Joi.object({
   slug: Joi.string().required(),
   content: Joi.string().required(),
   order: Joi.number(),
-  authorId: Joi.string().required(),
   type: Joi.string().valid('archive', 'page'),
   allowComment: Joi.number().valid(0, 1),
   metaIds: Joi.array()

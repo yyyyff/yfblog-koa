@@ -18,27 +18,30 @@ function authorizationHeader(ctx) {
 }
 
 // level 区分权限
-module.exports = (level = authLevel.ADMIN) => {
+module.exports = (level = authLevel.ADMIN, needLogin = true) => {
   return async function jwt(ctx, next) {
     let userToken = authorizationHeader(ctx)
     let decode = {}
     let errMsg = '身份校验失败，请重新登录试试'
-    if (!userToken) {
-      throw new Forbbiden(errMsg)
-    }
-    try {
-      decode = verify(userToken, token.secret)
-    } catch (error) {
-      if (error.name === 'TokenExpiredError') {
-        errMsg = '用户身份已过期，请重新登陆'
-      }
+    if (needLogin && !userToken) {
       throw new Forbbiden(errMsg)
     }
 
-    if (decode.authLevel < level) {
-      throw new Forbbiden('权限不足')
+    if (needLogin || userToken) {
+      try {
+        decode = verify(userToken, token.secret)
+      } catch (error) {
+        if (error.name === 'TokenExpiredError') {
+          errMsg = '用户身份已过期，请重新登陆'
+        }
+        throw new Forbbiden(errMsg)
+      }
+
+      if (decode.authLevel < level) {
+        throw new Forbbiden('权限不足')
+      }
     }
-    console.log(decode)
+
     ctx.state.user = decode
 
     await next()

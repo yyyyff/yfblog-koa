@@ -40,7 +40,9 @@ class MetaCtl {
 
     const hasSlug = await Metas.findAll({ where: { slug: saveSlug } })
     if (hasSlug.length !== 0) {
-      saveSlug = `${saveSlug}_1`
+      const D = new Date()
+      let timestamp = D.getTime()
+      saveSlug = `${saveSlug}_${timestamp}`
     }
     await Metas.create({
       name,
