@@ -1,11 +1,12 @@
-const requireDirectory = require('require-directory')
-const Router = require('koa-router')
-const parser = require('koa-bodyparser')
-const errorCatch = require('../middleware/errorCatch')
-const { sequelize } = require('../app/models')
+const requireDirectory = require("require-directory")
+const Router = require("koa-router")
+const parser = require("koa-bodyparser")
+const errorCatch = require("../middleware/errorCatch")
+const { sequelize } = require("../app/models")
 class InitManager {
   static initApp(app) {
     InitManager.app = app
+    InitManager.router = new Router()
     InitManager.initDB()
     InitManager.useMiddleware()
     InitManager.loadRoutes()
@@ -23,15 +24,16 @@ class InitManager {
   }
 
   static loadRoutes() {
-    requireDirectory(module, '../app/routes', {
-      visit: loadModule
-    })
-
     function loadModule(module) {
       if (module instanceof Router) {
-        InitManager.app.use(module.routes()).use(module.allowedMethods())
+        InitManager.router.use("/api", module.routes(), module.allowedMethods())
       }
     }
+
+    requireDirectory(module, "../app/routes", {
+      visit: loadModule
+    })
+    InitManager.app.use(InitManager.router.routes(),InitManager.router.allowedMethods())
   }
 }
 
